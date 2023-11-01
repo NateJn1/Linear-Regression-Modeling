@@ -1,0 +1,78 @@
+---
+title: "Stat 3301: Homework 1"
+author: "Nathan Johnson.9254"
+date: "Due by date and time specified on Carmen"
+output: pdf_document
+---
+
+\
+
+Setup:
+```{r message=FALSE}
+library(alr4)
+library(tidyverse)
+```
+
+\
+
+#### Instructions
+- Replace "FirstName LastName (name.n)" above with your information.
+- Provide your solutions below in the spaces marked "Solution:".
+- Include any R code that you use to answer the questions; if a numeric answer is required, show how you calculated it in R. Use the option `echo = TRUE` to make sure the R code is displayed.
+- Knit this document to HTML and upload both the HTML file and your completed Rmd file to Carmen
+- Make sure your solutions are clean and easy-to-read by
+    - formatting all plots to be appropriately sized, with appropriate axis labels.
+    - only including R code that is necessary to answer the questions below.
+    - only including R output that is necessary to answer the questions below (avoiding lengthy output).
+    - providing short written answers explaining your work, and writing in complete sentences.
+
+\
+
+#### Question 1
+Import the data set `ames_real_estate.csv` (which is available on Carmen) and use it to do the
+following:
+
+a) Find the smallest and largest observed sale prices separately for each 
+neighborhood.
+b) Make a scatterplot with the square footage of the house on the *x*-axis 
+and the sale price of the house on the *y*-axis.
+c) Write a sentence describing the relationship between `SalePrice` and `SqFt`.
+
+\
+
+##### Solution to Question 1
+```{r}
+library(readr)
+ames = read_csv('ames_real_estate.csv')
+```
+a. Here are the smallest and largest observed sale prices separately for 
+each neighborhood:
+```{r}
+ames %>% group_by(Neighborhood)%>% summarize(minSalePrice = min(SalePrice), 
+                          maxSalePrice = max(SalePrice)) %>% print(n = Inf)
+```
+
+b. Here is the scatterplot of ames with square feet on the x-axis and sale price
+on the y-axis.
+```{r}
+ames %>% ggplot(aes(x = SqFt, y = SalePrice)) + geom_point() + theme_bw(16)
+```
+c. As square feet (`SqFt`) in a house increases on average, the sales price 
+(`SalePrice`) of the house also increases on average.
+
+\
+
+#### Question 2
+Use the data set `Heights` from the library`alr4` to calculate the average 
+height for daughters whose mothers are **at least** 60 inches tall. 
+(The purpose of this question is to make sure you have the package installed 
+correctly.)
+
+\
+
+##### Solution to Question 2
+```{r}
+Heights %>% filter(mheight >= 60) %>% summarize(mean(dheight))
+```
+The mean height of daughters whose mothers were at least 60 inches tall is 
+64.09704 inches.
